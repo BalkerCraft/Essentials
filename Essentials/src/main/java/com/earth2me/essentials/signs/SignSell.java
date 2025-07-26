@@ -4,9 +4,9 @@ import com.earth2me.essentials.ChargeException;
 import com.earth2me.essentials.Trade;
 import com.earth2me.essentials.Trade.OverflowType;
 import com.earth2me.essentials.User;
-import net.ess3.api.events.SignTransactionEvent;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
+import net.ess3.api.events.SignTransactionEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;

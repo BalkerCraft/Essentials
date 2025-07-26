@@ -2,7 +2,6 @@ package com.earth2me.essentials.perm.impl;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
-
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextConsumer;

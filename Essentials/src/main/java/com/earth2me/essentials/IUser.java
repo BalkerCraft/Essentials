@@ -171,12 +171,6 @@ public interface IUser {
 
     void setLastTeleportTimestamp(long time);
 
-    String getJail();
-
-    void setJail(String jail);
-
-    String getFormattedJailTime();
-
     /**
      * Returns last activity time.
      * <p>

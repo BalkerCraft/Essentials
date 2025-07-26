@@ -103,16 +103,6 @@ public class UserConfigHolder {
         this.logoutlocation = LazyLocation.fromLocation(value);
     }
 
-    private @Nullable String jail;
-
-    public String jail() {
-        return this.jail;
-    }
-
-    public void jail(final String value) {
-        this.jail = value;
-    }
-
     @DeleteOnEmpty
     private @MonotonicNonNull ArrayList<MailMessage> mail;
 
@@ -189,16 +179,6 @@ public class UserConfigHolder {
 
     public void muteReason(final String value) {
         this.muteReason = value;
-    }
-
-    private boolean jailed = false;
-
-    public boolean jailed() {
-        return this.jailed;
-    }
-
-    public void jailed(final boolean value) {
-        this.jailed = value;
     }
 
     private @NonNull String ipAddress = "";
@@ -392,26 +372,6 @@ public class UserConfigHolder {
 
         public void mute(final long value) {
             this.mute = value;
-        }
-
-        private long jail = 0L;
-
-        public long jail() {
-            return this.jail;
-        }
-
-        public void jail(final long value) {
-            this.jail = value;
-        }
-
-        private long onlinejail = 0L;
-
-        public long onlineJail() {
-            return this.onlinejail;
-        }
-
-        public void onlineJail(final long value) {
-            this.onlinejail = value;
         }
 
         private long logout = 0L;

@@ -792,34 +792,6 @@ public class EssentialsUpgrade {
         doneFile.save();
     }
 
-    private void updateJailsToNewJailsConfig() {
-        if (doneFile.getBoolean("updateJailsToNewJailsConfig", false)) {
-            return;
-        }
-        final File configFile = new File(ess.getDataFolder(), "jail.yml");
-        if (configFile.exists()) {
-
-            final EssentialsConfiguration config = new EssentialsConfiguration(configFile);
-            try {
-                config.load();
-                if (!config.hasProperty("jails")) {
-                    for (final Map.Entry<String, CommentedConfigurationNode> entry : config.getMap().entrySet()) {
-                        final Location loc = getFakeLocation(entry.getValue(), entry.getKey());
-                        config.setProperty(entry.getKey(), loc);
-                    }
-                    if (!configFile.renameTo(new File(ess.getDataFolder(), "jail.yml.old"))) {
-                        throw new Exception(tlLiteral("fileRenameError", "jail.yml"));
-                    }
-                    config.blockingSave();
-                }
-            } catch (final Exception ex) {
-                ess.getLogger().log(Level.SEVERE, ex.getMessage(), ex);
-            }
-        }
-        doneFile.setProperty("updateJailsToNewJailsConfig", true);
-        doneFile.save();
-    }
-
     private void warnMetrics() {
         if (doneFile.getBoolean("warnMetrics", false)) {
             return;
@@ -1096,7 +1068,6 @@ public class EssentialsUpgrade {
         updateUsersHomesFormat();
         deleteOldItemsCsv();
         updateSpawnsToNewSpawnsConfig();
-        updateJailsToNewJailsConfig();
         uuidFileChange();
         banFormatChange();
         warnMetrics();

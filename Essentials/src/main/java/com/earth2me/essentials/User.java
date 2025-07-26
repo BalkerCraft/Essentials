@@ -18,7 +18,6 @@ import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import net.ess3.api.TranslatableException;
 import net.ess3.api.events.AfkStatusChangeEvent;
-import net.ess3.api.events.JailStatusChangeEvent;
 import net.ess3.api.events.MuteStatusChangeEvent;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import net.ess3.provider.PlayerLocaleProvider;
@@ -31,7 +30,6 @@ import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
@@ -50,7 +48,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -716,53 +713,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
 
     public boolean isHidden(final Player player) {
         return hidden || isHiddenFrom(player);
-    }
-
-    @Override
-    public String getFormattedJailTime() {
-        return DateUtil.formatDateDiff(getOnlineJailedTime() > 0 ? getOnlineJailExpireTime() : getJailTimeout());
-    }
-
-    private long getOnlineJailExpireTime() {
-        return ((getOnlineJailedTime() - getBase().getStatistic(PLAY_ONE_TICK)) * 50) + System.currentTimeMillis();
-    }
-
-    //Returns true if status expired during this check
-    @SuppressWarnings("UnusedReturnValue")
-    public boolean checkJailTimeout(final long currentTime) {
-        if (getJailTimeout() > 0) {
-
-            if (getOnlineJailedTime() > 0) {
-                if (getOnlineJailedTime() > getBase().getStatistic(PLAY_ONE_TICK)) {
-                    return false;
-                }
-            }
-
-            if (getJailTimeout() < currentTime && isJailed()) {
-                final JailStatusChangeEvent event = new JailStatusChangeEvent(this, null, false);
-                ess.getServer().getPluginManager().callEvent(event);
-
-                if (!event.isCancelled()) {
-                    setJailTimeout(0);
-                    setOnlineJailedTime(0);
-                    setJailed(false);
-                    sendTl("haveBeenReleased");
-                    setJail(null);
-                    if (ess.getSettings().getTeleportWhenFreePolicy() == ISettings.TeleportWhenFreePolicy.BACK) {
-                        final CompletableFuture<Boolean> future = new CompletableFuture<>();
-                        getAsyncTeleport().back(future);
-                        future.exceptionally(e -> {
-                            getAsyncTeleport().respawn(null, TeleportCause.PLUGIN, new CompletableFuture<>());
-                            return false;
-                        });
-                    } else if (ess.getSettings().getTeleportWhenFreePolicy() == ISettings.TeleportWhenFreePolicy.SPAWN) {
-                        getAsyncTeleport().respawn(null, TeleportCause.PLUGIN, new CompletableFuture<>());
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     //Returns true if status expired during this check

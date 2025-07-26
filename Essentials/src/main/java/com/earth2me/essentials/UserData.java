@@ -315,15 +315,6 @@ public abstract class UserData extends PlayerExtension implements IConf {
         config.save();
     }
 
-    public String getJail() {
-        return holder.jail();
-    }
-
-    public void setJail(final String jail) {
-        holder.jail(jail);
-        config.save();
-    }
-
     /**
      * @deprecated Mails are no longer just strings, this method is therefore misleading.
      */
@@ -496,39 +487,6 @@ public abstract class UserData extends PlayerExtension implements IConf {
 
     public void setMuteTimeout(final long time) {
         holder.timestamps().mute(time);
-        config.save();
-    }
-
-    public boolean isJailed() {
-        return holder.jailed();
-    }
-
-    public void setJailed(final boolean set) {
-        holder.jailed(set);
-        config.save();
-    }
-
-    public boolean toggleJailed() {
-        final boolean ret = !isJailed();
-        setJailed(ret);
-        return ret;
-    }
-
-    public long getJailTimeout() {
-        return holder.timestamps().jail();
-    }
-
-    public void setJailTimeout(final long time) {
-        holder.timestamps().jail(time);
-        config.save();
-    }
-
-    public long getOnlineJailedTime() {
-        return holder.timestamps().onlineJail();
-    }
-
-    public void setOnlineJailedTime(long onlineJailed) {
-        holder.timestamps().onlineJail(onlineJailed);
         config.save();
     }
 

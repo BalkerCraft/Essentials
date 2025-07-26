@@ -116,9 +116,6 @@ public class Commandseen extends EssentialsCommand {
         if (user.isAfk()) {
             sender.sendTl("whoisAFK", CommonPlaceholders.trueFalse(sender, true));
         }
-        if (user.isJailed()) {
-            sender.sendTl("whoisJail", user.getJailTimeout() > 0 ? user.getFormattedJailTime() : CommonPlaceholders.trueFalse(sender, true));
-        }
         if (user.isMuted()) {
             final long muteTimeout = user.getMuteTimeout();
             if (!user.hasMuteReason()) {

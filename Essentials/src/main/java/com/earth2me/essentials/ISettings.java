@@ -388,10 +388,6 @@ public interface ISettings extends IConf {
 
     boolean isConfirmCommandEnabledByDefault(String commandName);
 
-    TeleportWhenFreePolicy getTeleportWhenFreePolicy();
-
-    boolean isJailOnlineTime();
-
     boolean isCompassTowardsHomePerm();
 
     boolean isAllowWorldInBroadcastworld();

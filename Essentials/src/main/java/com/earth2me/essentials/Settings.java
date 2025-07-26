@@ -211,7 +211,15 @@ public class Settings implements net.ess3.api.ISettings {
                 }
             }
         }
-        return limit;
+
+        int extraHomes = 0;
+        for (int i = 1; i < 5; i++) {
+            if (user.isAuthorized("essentials.sethome.extrahomes." + i)) {
+                extraHomes = i;
+            }
+        }
+
+        return limit + extraHomes;
     }
 
     @Override
@@ -919,7 +927,6 @@ public class Settings implements net.ess3.api.ISettings {
         currencyFormat = _getCurrencyFormat();
         unprotectedSigns = _getUnprotectedSign();
         defaultEnabledConfirmCommands = _getDefaultEnabledConfirmCommands();
-        teleportWhenFreePolicy = _getTeleportWhenFreePolicy();
         isCompassTowardsHomePerm = _isCompassTowardsHomePerm();
         isAllowWorldInBroadcastworld = _isAllowWorldInBroadcastworld();
         itemDbType = _getItemDbType();
@@ -1957,34 +1964,6 @@ public class Settings implements net.ess3.api.ISettings {
     @Override
     public boolean isConfirmCommandEnabledByDefault(final String commandName) {
         return getDefaultEnabledConfirmCommands().contains(commandName.toLowerCase());
-    }
-
-    private TeleportWhenFreePolicy _getTeleportWhenFreePolicy() {
-        if (config.hasProperty("teleport-back-when-freed-from-jail")) {
-            return config.getBoolean("teleport-back-when-freed-from-jail", true) ? TeleportWhenFreePolicy.BACK : TeleportWhenFreePolicy.OFF;
-        }
-
-        if (config.hasProperty("teleport-when-freed")) {
-            // snakeyaml more like cursedyaml
-            final String value = config.getString("teleport-when-freed", "back").replace("false", "off");
-            try {
-                return TeleportWhenFreePolicy.valueOf(value.toUpperCase(Locale.ROOT));
-            } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Invalid value \"" + value + "\" for config option \"teleport-when-freed\"!", e);
-            }
-        }
-
-        return TeleportWhenFreePolicy.BACK;
-    }
-
-    @Override
-    public TeleportWhenFreePolicy getTeleportWhenFreePolicy() {
-        return teleportWhenFreePolicy;
-    }
-
-    @Override
-    public boolean isJailOnlineTime() {
-        return config.getBoolean("jail-online-time", false);
     }
 
     private boolean _isCompassTowardsHomePerm() {

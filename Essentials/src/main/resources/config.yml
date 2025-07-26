@@ -715,10 +715,6 @@ default-enabled-confirm-commands:
 # 'spawn' to send them to the spawnpoint, or 'off' to disable teleportation upon release.
 teleport-when-freed: back
 
-# Whether jail time should only be counted while the player is online.
-# If true, a jailed player's time will only decrement when they are online.
-jail-online-time: false
-
 # Set the timeout, in seconds, for players to accept a teleport request before it is cancelled.
 # Set to 0 for no timeout.
 tpa-accept-cancellation: 120

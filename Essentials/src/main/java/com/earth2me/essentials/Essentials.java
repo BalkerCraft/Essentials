@@ -47,7 +47,6 @@ import io.papermc.lib.PaperLib;
 import net.ess3.api.Economy;
 import net.ess3.api.IEssentials;
 import net.ess3.api.IItemDb;
-import net.ess3.api.IJails;
 import net.ess3.api.ISettings;
 import net.ess3.api.TranslatableException;
 import net.ess3.nms.refl.providers.ReflDataWorldInfoProvider;
@@ -149,12 +148,10 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     private static final Logger BUKKIT_LOGGER = Logger.getLogger("Essentials");
     private static Logger LOGGER = null;
     public static boolean TESTING = false;
-    private final transient TNTExplodeListener tntListener = new TNTExplodeListener();
     private final transient Set<String> vanishedPlayers = new LinkedHashSet<>();
     private final transient Map<String, IEssentialsCommand> commandMap = new HashMap<>();
     private final transient ProviderFactory providerFactory = new ProviderFactory(this);
     private transient ISettings settings;
-    private transient Jails jails;
     private transient Warps warps;
     private transient Worth worth;
     private transient List<IConf> confList;
@@ -306,10 +303,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
                 customItemResolver = null;
             }
             execTimer.mark("Init(CustomItemResolver)");
-
-            jails = new Jails(this);
-            confList.add(jails);
-            execTimer.mark("Init(Jails)");
 
             EconomyLayers.onEnable(this);
             execTimer.mark("Init(EconomyLayers)");
@@ -501,13 +494,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
         final EssentialsServerListener serverListener = new EssentialsServerListener(this);
         pm.registerEvents(serverListener, this);
 
-        pm.registerEvents(tntListener, this);
-
         if (recipeBookEventProvider != null) {
             pm.registerEvents(recipeBookEventProvider, this);
         }
-
-        jails.resetListener();
     }
 
     @Override
@@ -670,10 +659,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
                 return Collections.emptyList();
             }
 
-            if (user != null && user.isJailed() && !user.isAuthorized(cmd, "essentials.jail.allow.")) {
-                return Collections.emptyList();
-            }
-
             // Run the command
             try {
                 if (user == null) {
@@ -782,15 +767,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
                 return true;
             }
 
-            if (user != null && user.isJailed() && !user.isAuthorized(cmd, "essentials.jail.allow.")) {
-                if (user.getJailTimeout() > 0) {
-                    user.sendTl("playerJailedFor", user.getName(), user.getFormattedJailTime());
-                } else {
-                    user.sendTl("jailMessage");
-                }
-                return true;
-            }
-
             // Run the command
             try {
                 if (user == null) {
@@ -875,11 +851,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     @Override
     public BukkitScheduler getScheduler() {
         return this.getServer().getScheduler();
-    }
-
-    @Override
-    public IJails getJails() {
-        return jails;
     }
 
     @Override

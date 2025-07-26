@@ -1,7 +1,6 @@
 package com.earth2me.essentials;
 
 import com.earth2me.essentials.api.IItemDb;
-import com.earth2me.essentials.api.IJails;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.commands.PlayerNotFoundException;
@@ -80,8 +79,6 @@ public interface IEssentials extends Plugin {
     ISettings getSettings();
 
     BukkitScheduler getScheduler();
-
-    IJails getJails();
 
     IWarps getWarps();
 

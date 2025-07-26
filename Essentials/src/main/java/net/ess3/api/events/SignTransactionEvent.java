@@ -3,9 +3,9 @@ package net.ess3.api.events;
 import com.earth2me.essentials.signs.EssentialsSign;
 import net.ess3.api.IUser;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.bukkit.event.HandlerList;
 
 import java.math.BigDecimal;
 
