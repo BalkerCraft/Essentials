@@ -274,8 +274,6 @@ public interface ISettings extends IConf {
 
     long getPermissionsLagWarning();
 
-    void setEssentialsChatActive(boolean b);
-
     Map<String, Object> getListGroupConfig();
 
     int getMaxNickLength();

@@ -98,7 +98,6 @@ public class Settings implements net.ess3.api.ISettings {
     private boolean changePlayerListName = false;
     private boolean prefixsuffixconfigured = false;
     private boolean addprefixsuffix = false;
-    private boolean essentialsChatActive = false;
     // #easteregg
     private boolean disablePrefix = false;
     // #easteregg
@@ -1212,13 +1211,8 @@ public class Settings implements net.ess3.api.ISettings {
     }
 
     @Override
-    public void setEssentialsChatActive(final boolean essentialsChatActive) {
-        this.essentialsChatActive = essentialsChatActive;
-    }
-
-    @Override
     public boolean addPrefixSuffix() {
-        return prefixsuffixconfigured ? addprefixsuffix : essentialsChatActive;
+        return prefixsuffixconfigured && addprefixsuffix;
     }
 
     private boolean _disablePrefix() {

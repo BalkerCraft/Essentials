@@ -20,9 +20,6 @@ public class EssentialsPluginListener implements Listener, IConf {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPluginEnable(final PluginEnableEvent event) {
-        if (event.getPlugin().getName().equals("EssentialsChat")) {
-            ess.getSettings().setEssentialsChatActive(true);
-        }
         ess.getPermissionsHandler().setUseSuperperms(ess.getSettings().useBukkitPermissions());
         ess.getPermissionsHandler().checkPermissions();
         ess.getAlternativeCommandsHandler().addPlugin(event.getPlugin());
@@ -36,9 +33,6 @@ public class EssentialsPluginListener implements Listener, IConf {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPluginDisable(final PluginDisableEvent event) {
-        if (event.getPlugin().getName().equals("EssentialsChat")) {
-            ess.getSettings().setEssentialsChatActive(false);
-        }
         ess.getPermissionsHandler().checkPermissions();
         ess.getAlternativeCommandsHandler().removePlugin(event.getPlugin());
         if (EconomyLayers.onPluginDisable(event.getPlugin())) {
