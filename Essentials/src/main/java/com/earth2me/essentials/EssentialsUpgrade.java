@@ -791,14 +791,6 @@ public class EssentialsUpgrade {
         doneFile.save();
     }
 
-    private void warnMetrics() {
-        if (doneFile.getBoolean("warnMetrics", false)) {
-            return;
-        }
-        doneFile.setProperty("warnMetrics", true);
-        doneFile.save();
-    }
-
     private void uuidFileChange() {
         if (doneFile.getBoolean("uuidFileChange", false)) {
             return;
@@ -1065,7 +1057,6 @@ public class EssentialsUpgrade {
         updateSpawnsToNewSpawnsConfig();
         uuidFileChange();
         banFormatChange();
-        warnMetrics();
         convertIgnoreList();
         convertStupidCamelCaseUserdataKeys();
         convertMailList();

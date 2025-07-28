@@ -1,7 +1,6 @@
 package com.earth2me.essentials.spawn;
 
 import com.earth2me.essentials.EssentialsLogger;
-import com.earth2me.essentials.metrics.MetricsWrapper;
 import com.earth2me.essentials.utils.AdventureUtil;
 import net.ess3.api.IEssentials;
 import org.bukkit.Location;
@@ -21,7 +20,6 @@ import static com.earth2me.essentials.I18n.tlLiteral;
 public class EssentialsSpawn extends JavaPlugin implements IEssentialsSpawn {
     private transient IEssentials ess;
     private transient SpawnStorage spawns;
-    private transient MetricsWrapper metrics = null;
 
     @Override
     public void onEnable() {
@@ -52,10 +50,6 @@ public class EssentialsSpawn extends JavaPlugin implements IEssentialsSpawn {
             pluginManager.registerEvent(PlayerJoinEvent.class, playerListener, joinPriority, (ll, event) ->
                 ((EssentialsSpawnPlayerListener) ll).onPlayerJoin((PlayerJoinEvent) event), this);
         }
-
-        if (metrics == null) {
-            metrics = new MetricsWrapper(this, 3817, true);
-        }
     }
 
     public static Logger getWrappedLogger() {
@@ -73,7 +67,6 @@ public class EssentialsSpawn extends JavaPlugin implements IEssentialsSpawn {
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String commandLabel, final String[] args) {
-        metrics.markCommand(command.getName(), true);
         return ess.onCommandEssentials(sender, command, commandLabel, args, EssentialsSpawn.class.getClassLoader(), "com.earth2me.essentials.spawn.Command", "essentials.", spawns);
     }
 
