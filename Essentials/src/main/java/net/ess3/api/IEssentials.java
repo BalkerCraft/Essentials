@@ -2,8 +2,6 @@ package net.ess3.api;
 
 import com.earth2me.essentials.items.CustomItemResolver;
 
-import java.util.Collection;
-
 /**
  * This interface exposes certain extra methods implemented in the main class that are not implemented in {@link com.earth2me.essentials.IEssentials}.
  * External plugins should use this class instead of {@link com.earth2me.essentials.Essentials} or {@link com.earth2me.essentials.IEssentials} where possible.

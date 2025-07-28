@@ -9,7 +9,6 @@ import com.earth2me.essentials.utils.AdventureUtil;
 import com.earth2me.essentials.utils.StringUtil;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.google.gson.reflect.TypeToken;
 import net.ess3.api.IEssentials;
 import nu.studer.java.util.OrderedProperties;
 import org.bukkit.BanList;

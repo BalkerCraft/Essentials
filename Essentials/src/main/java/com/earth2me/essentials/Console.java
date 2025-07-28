@@ -9,8 +9,6 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 import static com.earth2me.essentials.I18n.tlLiteral;
 
 public final class Console implements IMessageRecipient {

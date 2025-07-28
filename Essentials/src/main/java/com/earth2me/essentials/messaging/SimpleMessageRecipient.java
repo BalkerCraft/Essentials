@@ -9,7 +9,6 @@ import net.ess3.api.events.PrivateMessageSentEvent;
 import org.bukkit.entity.Player;
 
 import java.lang.ref.WeakReference;
-import java.util.UUID;
 
 import static com.earth2me.essentials.I18n.tlLiteral;
 
