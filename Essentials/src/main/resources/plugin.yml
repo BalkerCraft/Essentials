@@ -259,14 +259,6 @@ commands:
     description: Opens up a loom.
     usage: /<command>
     aliases: [eloom]
-  mail:
-    description: Manages inter-player, intra-server mail.
-    usage: /<command> [read|clear|clear [number]|clear <player> [number]|send [to] [message]|sendtemp [to] [expire time] [message]|sendall [message]]
-    aliases: [email,eemail,memo,ememo]
-  me:
-    description: Describes an action in the context of the player.
-    usage: /<command> <description>
-    aliases: [action,eaction,describe,edescribe,eme]
   more:
     description: Fills the item stack in hand to specified amount, or to maximum size if none is specified.
     usage: /<command> [amount]
@@ -416,7 +408,7 @@ commands:
     usage: /<command>
     aliases: [esmithingtable, smithtable, esmithtable]
   socialspy:
-    description: Toggles if you can see msg/mail commands in chat.
+    description: Toggles if you can see msg commands in chat.
     usage: /<command> [player] [on|off]
     aliases: [esocialspy]
   spawner:
@@ -884,20 +876,6 @@ permissions:
     description: Allows access to the /list command
   essentials.list.hidden:
     description: Allow access to view hidden players in the /list command
-  essentials.mail:
-    description: Allows access to the /mail command
-  essentials.mail.send:
-    description: Allows access to send mail with the /mail command
-  essentials.mail.sendall:
-    description: Allows access to send mail to all players with the /mail command
-  essentials.mail.sendtemp:
-    description: Allows access to send temporary mail with the /mail command
-  essentials.mail.clear.others:
-    description: Allows access to clear other players mail with the /mail command
-  essentials.mail.clearall:
-    description: Allows access to clear all mail with the /mail command
-  essentials.me:
-    description: Allows access to the /me command
   essentials.more:
     description: Allows access to the /more command
   essentials.motd:
@@ -1077,10 +1055,6 @@ permissions:
     description: Allows the bearer to create and use unsafe enchantment signs
   essentials.signs.protection.override:
     description: Allows the bearer to break signs created by other players
-  essentials.signs.trade.override:
-    description: Allows the bearer to break trade signs created by other players
-  essentials.signs.trade.override.collect:
-    description: Allows the bearer to collect items from trade signs created by other players
   essentials.silentjoin:
     default: false
     description: Allow to join silently
@@ -1260,24 +1234,18 @@ permissions:
     description: Allows the bearer to break enchant signs
   essentials.signs.break.free:
     description: Allows the bearer to break free signs
-  essentials.signs.break.gamemode:
-    description: Allows the bearer to break gamemode signs
   essentials.signs.break.heal:
     description: Allows the bearer to break heal signs
   essentials.signs.break.info:
     description: Allows the bearer to break info signs
   essentials.signs.break.kit:
     description: Allows the bearer to break kit signs
-  essentials.signs.break.mail:
-    description: Allows the bearer to break mail signs
   essentials.signs.break.protection:
     description: Allows the bearer to break protection signs
   essentials.signs.break.repair:
     description: Allows the bearer to break repair signs
   essentials.signs.break.sell:
     description: Allows the bearer to break sell signs
-  essentials.signs.break.spawnmob:
-    description: Allows the bearer to break spawnmob signs
   essentials.signs.break.trade:
     description: Allows the bearer to break trade signs
   essentials.signs.break.time:
@@ -1304,24 +1272,18 @@ permissions:
     description: Allows the bearer to use enchant signs
   essentials.signs.use.free:
     description: Allows the bearer to use free signs
-  essentials.signs.use.gamemode:
-    description: Allows the bearer to use gamemode signs
   essentials.signs.use.heal:
     description: Allows the bearer to use heal signs
   essentials.signs.use.info:
     description: Allows the bearer to use info signs
   essentials.signs.use.kit:
     description: Allows the bearer to use kit signs
-  essentials.signs.use.mail:
-    description: Allows the bearer to use mail signs
   essentials.signs.use.protection:
     description: Allows the bearer to use protection signs
   essentials.signs.use.repair:
     description: Allows the bearer to use repair signs
   essentials.signs.use.sell:
     description: Allows the bearer to use sell signs
-  essentials.signs.use.spawnmob:
-    description: Allows the bearer to use spawnmob signs
   essentials.signs.use.trade:
     description: Allows the bearer to use trade signs
   essentials.signs.use.time:
@@ -1340,24 +1302,18 @@ permissions:
     description: Allows the bearer to create enchant signs
   essentials.signs.create.free:
     description: Allows the bearer to create free signs
-  essentials.signs.create.gamemode:
-    description: Allows the bearer to create gamemode signs
   essentials.signs.create.heal:
     description: Allows the bearer to create heal signs
   essentials.signs.create.info:
     description: Allows the bearer to create info signs
   essentials.signs.create.kit:
     description: Allows the bearer to create kit signs
-  essentials.signs.create.mail:
-    description: Allows the bearer to create mail signs
   essentials.signs.create.protection:
     description: Allows the bearer to create protection signs
   essentials.signs.create.repair:
     description: Allows the bearer to create repair signs
   essentials.signs.create.sell:
     description: Allows the bearer to create sell signs
-  essentials.signs.create.spawnmob:
-    description: Allows the bearer to create spawnmob signs
   essentials.signs.create.trade:
     description: Allows the bearer to create trade signs
   essentials.signs.create.time:

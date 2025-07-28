@@ -21,7 +21,6 @@ import net.ess3.api.events.AfkStatusChangeEvent;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import net.ess3.provider.PlayerLocaleProvider;
 import net.essentialsx.api.v2.events.TransactionEvent;
-import net.essentialsx.api.v2.services.mail.MailSender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Location;
@@ -30,9 +29,6 @@ import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.math.BigDecimal;
@@ -89,7 +85,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
     private transient long lastThrottledAction;
     private transient long lastActivity = System.currentTimeMillis();
     private transient long teleportInvulnerabilityTimestamp = 0;
-    private long lastNotifiedAboutMailsMs;
     private long lastHomeConfirmationTimestamp;
 
     // Misc
@@ -1072,34 +1067,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
      */
     public ItemStack getItemInHand() {
         return Inventories.getItemInHand(getBase());
-    }
-
-    @Override
-    public void sendMail(MailSender sender, String message) {
-        sendMail(sender, message, 0);
-    }
-
-    @Override
-    public void sendMail(MailSender sender, String message, long expireAt) {
-        ess.getMail().sendMail(this, sender, message, expireAt);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Deprecated
-    public void addMail(String mail) {
-        ess.getMail().sendLegacyMail(this, mail);
-    }
-
-    public void notifyOfMail() {
-        final int unread = getUnreadMailAmount();
-        if (unread != 0) {
-            final int notifyPlayerOfMailCooldown = ess.getSettings().getNotifyPlayerOfMailCooldown() * 1000;
-            if (System.currentTimeMillis() - lastNotifiedAboutMailsMs >= notifyPlayerOfMailCooldown) {
-                sendTl("youHaveNewMail", unread);
-                lastNotifiedAboutMailsMs = System.currentTimeMillis();
-            }
-        }
     }
 
     public String getLastHomeConfirmation() {

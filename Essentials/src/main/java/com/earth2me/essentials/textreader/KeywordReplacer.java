@@ -41,7 +41,6 @@ enum KeywordType {
     SUFFIX(KeywordCachable.CACHEABLE),
     GROUP(KeywordCachable.CACHEABLE),
     BALANCE(KeywordCachable.CACHEABLE),
-    MAILS(KeywordCachable.CACHEABLE),
     PLAYTIME(KeywordCachable.CACHEABLE),
     WORLD(KeywordCachable.CACHEABLE),
     WORLDNAME(KeywordCachable.CACHEABLE),
@@ -229,11 +228,6 @@ public class KeywordReplacer implements IText {
                     case BALANCE:
                         if (user != null) {
                             replacer = AdventureUtil.miniToLegacy(NumberUtil.displayCurrency(user.getMoney(), ess));
-                        }
-                        break;
-                    case MAILS:
-                        if (user != null) {
-                            replacer = Integer.toString(user.getMailAmount());
                         }
                         break;
                     case PLAYTIME:

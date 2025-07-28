@@ -73,11 +73,6 @@ public class SimpleMessageRecipient implements IMessageRecipient {
     }
 
     @Override
-    public UUID getUUID() {
-        return this.parent.getUUID();
-    }
-
-    @Override
     public String getDisplayName() {
         return this.parent.getDisplayName();
     }

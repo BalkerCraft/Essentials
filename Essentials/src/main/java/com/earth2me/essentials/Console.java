@@ -52,11 +52,6 @@ public final class Console implements IMessageRecipient {
     }
 
     @Override
-    public UUID getUUID() {
-        return null;
-    }
-
-    @Override
     public String getDisplayName() {
         return Console.DISPLAY_NAME;
     }

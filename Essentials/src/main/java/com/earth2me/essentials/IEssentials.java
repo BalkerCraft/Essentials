@@ -9,7 +9,6 @@ import com.earth2me.essentials.updatecheck.UpdateChecker;
 import com.earth2me.essentials.userstorage.IUserMap;
 import net.ess3.provider.Provider;
 import net.essentialsx.api.v2.services.BalanceTop;
-import net.essentialsx.api.v2.services.mail.MailService;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -120,8 +119,6 @@ public interface IEssentials extends Plugin {
     BalanceTop getBalanceTop();
 
     EssentialsTimer getTimer();
-
-    MailService getMail();
 
     Collection<Player> getOnlinePlayers();
 

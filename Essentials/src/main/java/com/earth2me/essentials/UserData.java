@@ -12,7 +12,6 @@ import com.google.common.base.Charsets;
 import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import net.ess3.api.TranslatableException;
-import net.essentialsx.api.v2.services.mail.MailMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -312,72 +311,6 @@ public abstract class UserData extends PlayerExtension implements IConf {
 
     public void setLastHealTimestamp(final long time) {
         holder.timestamps().lastHeal(time);
-        config.save();
-    }
-
-    /**
-     * @deprecated Mails are no longer just strings, this method is therefore misleading.
-     */
-    @Deprecated
-    public List<String> getMails() {
-        final List<String> list = new ArrayList<>();
-        if (getMailAmount() != 0) {
-            for (MailMessage mail : getMailMessages()) {
-                // I hate this code btw
-                list.add(mail.isLegacy() ? mail.getMessage() : ChatColor.GOLD + "[" + ChatColor.RESET + mail.getSenderUsername() + ChatColor.GOLD + "] " + ChatColor.RESET + mail.getMessage());
-            }
-        }
-        return list;
-    }
-
-    /**
-     * @deprecated This method does not support the new mail system and will fail at runtime.
-     */
-    @Deprecated
-    public void setMails(List<String> mails) {
-        throw new UnsupportedOperationException("UserData#setMails(List<String>) is deprecated and can no longer be used. Please tell the plugin author to update this!");
-    }
-
-    public int getMailAmount() {
-        if (holder.mail() == null) {
-            return 0;
-        }
-
-        int amount = 0;
-        for (MailMessage element : holder.mail()) {
-            if (!element.isExpired()) {
-                amount++;
-            }
-        }
-        return amount;
-    }
-
-    public int getUnreadMailAmount() {
-        if (holder.mail() == null || holder.mail().isEmpty()) {
-            return 0;
-        }
-
-        int unread = 0;
-        for (MailMessage element : holder.mail()) {
-            if (!element.isRead() && !element.isExpired()) {
-                unread++;
-            }
-        }
-        return unread;
-    }
-
-    /**
-     * @deprecated This method does not support the new mail system and should not be used.
-     */
-    @Deprecated
-    abstract void addMail(final String mail);
-
-    public ArrayList<MailMessage> getMailMessages() {
-        return new ArrayList<>(holder.mail());
-    }
-
-    public void setMailList(ArrayList<MailMessage> messages) {
-        holder.mail(messages);
         config.save();
     }
 

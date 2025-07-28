@@ -4,7 +4,6 @@ import com.earth2me.essentials.config.annotations.DeleteIfIncomplete;
 import com.earth2me.essentials.config.annotations.DeleteOnEmpty;
 import com.earth2me.essentials.config.entities.CommandCooldown;
 import com.earth2me.essentials.config.entities.LazyLocation;
-import net.essentialsx.api.v2.services.mail.MailMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -101,20 +100,6 @@ public class UserConfigHolder {
             return;
         }
         this.logoutlocation = LazyLocation.fromLocation(value);
-    }
-
-    @DeleteOnEmpty
-    private @MonotonicNonNull ArrayList<MailMessage> mail;
-
-    public ArrayList<MailMessage> mail() {
-        if (this.mail == null) {
-            this.mail = new ArrayList<>();
-        }
-        return this.mail;
-    }
-
-    public void mail(final ArrayList<MailMessage> value) {
-        this.mail = value;
     }
 
     private boolean teleportenabled = true;

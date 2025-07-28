@@ -150,13 +150,6 @@ warn-on-smite: true
 # Should items be dropped at a player's feet if their inventory is full instead of not giving the item(s)?
 drop-items-if-full: false
 
-# Should Essentials notify players if they have no new mail?
-notify-no-new-mail: true
-
-# Specifies the cooldown duration, in seconds, between mail notifications for a player.
-# Useful for servers with high mail traffic.
-notify-player-of-mail-cooldown: 60
-
 # When a command conflicts with another plugin, Essentials will, by default, try to force the OTHER plugin to take priority.
 # Adding commands to this list will tell Essentials not to "give up" the command to other plugins.
 # In this state, which plugin "wins" may appear almost random.
@@ -189,7 +182,6 @@ socialspy-commands:
   - describe
   - eaction
   - edescribe
-  - email
   - eme
   - emsg
   - er
@@ -197,7 +189,6 @@ socialspy-commands:
   - etell
   - ewhisper
   - m
-  - mail
   - msg
   - pm
   - r
@@ -282,9 +273,6 @@ player-commands:
   - kit
   - kits.tools
   - list
-  - mail
-  - mail.send
-  - me
   - motd
   - msg
   - msg.color
@@ -302,24 +290,19 @@ player-commands:
   - sethome
   - setxmpp
   - signs.create.protection
-  - signs.create.trade
   - signs.break.protection
-  - signs.break.trade
   - signs.use.balance
   - signs.use.buy
   - signs.use.disposal
   - signs.use.enchant
   - signs.use.free
-  - signs.use.gamemode
   - signs.use.heal
   - signs.use.info
   - signs.use.kit
-  - signs.use.mail
   - signs.use.protection
   - signs.use.repair
   - signs.use.sell
   - signs.use.time
-  - signs.use.trade
   - signs.use.warp
   - signs.use.weather
   - spawn
@@ -373,11 +356,9 @@ enabledSigns:
   #- trade
   #- enchant
   #- repair
-  #- gamemode
   #- heal
   #- info
   #- kit
-  #- mail
   #- randomteleport
   #- warp
   #- anvil
@@ -387,7 +368,6 @@ enabledSigns:
   #- loom
   #- smithing
   #- workbench
-  #- spawnmob
   #- time
   #- weather
 
@@ -615,9 +595,6 @@ login-attack-delay: 5
 # For example, if the maximum speed is set to 0.8 and a player uses '/speed 10', their actual speed will be 0.8.
 max-walk-speed: 0.8
 max-fly-speed: 0.8
-
-# Set the maximum amount of mail that can be sent within a minute.
-mails-per-minute: 1000
 
 # Set the maximum duration, in seconds, that /mute can be applied for.
 # Set to -1 to disable the limit. Players with the 'essentials.mute.unlimited' permission can bypass this restriction.

@@ -95,7 +95,6 @@ import net.ess3.provider.providers.PaperServerStateProvider;
 import net.ess3.provider.providers.PaperTickCountProvider;
 import net.ess3.provider.providers.PrehistoricPotionMetaProvider;
 import net.essentialsx.api.v2.services.BalanceTop;
-import net.essentialsx.api.v2.services.mail.MailService;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -130,12 +129,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -164,7 +161,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     private transient ModernUserMap userMap;
     private transient BalanceTopImpl balanceTop;
     private transient ExecuteTimer execTimer;
-    private transient MailService mail;
     private transient I18n i18n;
     private transient EssentialsTimer timer;
     private transient ProviderListener recipeBookEventProvider;
@@ -259,9 +255,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
 
             upgrade.preModules();
             execTimer.mark("Upgrade2");
-
-            mail = new MailServiceImpl(this);
-            execTimer.mark("Init(Mail)");
 
             userMap = new ModernUserMap(this);
             legacyUserMap = new UserMap(userMap);
@@ -722,11 +715,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
             }
 
             final CommandSource sender = new CommandSource(this, cSender);
-
-            // New mail notification
-            if (user != null && !getSettings().isCommandDisabled("mail") && !command.getName().equals("mail") && user.isAuthorized("essentials.mail")) {
-                user.notifyOfMail();
-            }
 
             //Print version even if admin command is not available #easteregg
             if (commandLabel.equalsIgnoreCase("essversion")) {
@@ -1212,11 +1200,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     @Override
     public EssentialsTimer getTimer() {
         return timer;
-    }
-
-    @Override
-    public MailService getMail() {
-        return mail;
     }
 
     @Override

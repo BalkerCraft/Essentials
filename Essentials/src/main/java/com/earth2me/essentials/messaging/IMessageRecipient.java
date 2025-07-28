@@ -1,12 +1,11 @@
 package com.earth2me.essentials.messaging;
 
-import net.essentialsx.api.v2.services.mail.MailSender;
 import org.bukkit.entity.Player;
 
 /**
  * Represents an interface for message recipients.
  */
-public interface IMessageRecipient extends MailSender {
+public interface IMessageRecipient {
 
     /**
      * Sends (prints) a message to this recipient.
