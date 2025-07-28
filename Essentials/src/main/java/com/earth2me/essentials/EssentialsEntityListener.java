@@ -199,17 +199,9 @@ public class EssentialsEntityListener implements Listener {
                     event.getDrops().remove(item);
                 }
             }
-            final ISettings.KeepInvPolicy vanish = ess.getSettings().getVanishingItemsPolicy();
             final ISettings.KeepInvPolicy bind = ess.getSettings().getBindingItemsPolicy();
-            if (VersionUtil.getServerBukkitVersion().isHigherThanOrEqualTo(VersionUtil.v1_11_2_R01) && (vanish != ISettings.KeepInvPolicy.KEEP || bind != ISettings.KeepInvPolicy.KEEP)) {
+            if (VersionUtil.getServerBukkitVersion().isHigherThanOrEqualTo(VersionUtil.v1_11_2_R01) && bind != ISettings.KeepInvPolicy.KEEP) {
                 Inventories.removeItems(user.getBase(), stack -> {
-                    if (vanish != ISettings.KeepInvPolicy.KEEP && stack.getEnchantments().containsKey(Enchantment.VANISHING_CURSE)) {
-                        if (vanish == ISettings.KeepInvPolicy.DROP) {
-                            event.getDrops().add(stack.clone());
-                        }
-                        return true;
-                    }
-
                     if (bind != ISettings.KeepInvPolicy.KEEP && stack.getEnchantments().containsKey(Enchantment.BINDING_CURSE)) {
                         if (bind == ISettings.KeepInvPolicy.DROP) {
                             event.getDrops().add(stack.clone());
@@ -259,16 +251,6 @@ public class EssentialsEntityListener implements Listener {
             final User user = ess.getUser((Player) event.getEntity());
             if (user.isAfk()) {
                 user.updateActivityOnInteract(true);
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onEntityTarget(final EntityTargetEvent event) {
-        if (event.getTarget() instanceof Player) {
-            final User user = ess.getUser((Player) event.getTarget());
-            if (user.isVanished()) {
-                event.setCancelled(true);
             }
         }
     }

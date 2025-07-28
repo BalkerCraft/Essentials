@@ -63,14 +63,6 @@ public class Commandwhois extends EssentialsCommand {
         } else {
             sender.sendTl("whoisAFK", CommonPlaceholders.trueFalse(sender, false));
         }
-
-        final long muteTimeout = user.getMuteTimeout();
-        if (!user.hasMuteReason()) {
-            sender.sendTl("whoisMuted", AdventureUtil.parsed(user.isMuted() ? muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : sender.tl("true") : sender.tl("false")));
-        } else {
-            sender.sendTl("whoisMutedReason", AdventureUtil.parsed(user.isMuted() ? muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : sender.tl("true") : sender.tl("false")),
-                user.getMuteReason());
-        }
     }
 
     @Override

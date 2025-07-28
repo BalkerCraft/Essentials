@@ -2,7 +2,6 @@ package com.earth2me.essentials.commands;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.User;
-import com.earth2me.essentials.craftbukkit.BanLookup;
 import com.earth2me.essentials.utils.AdventureUtil;
 import com.earth2me.essentials.utils.CommonPlaceholders;
 import com.earth2me.essentials.utils.DateUtil;
@@ -30,11 +29,9 @@ public class Commandseen extends EssentialsCommand {
         if (args.length < 1) {
             throw new NotEnoughArgumentsException();
         }
-        final boolean showBan = sender.isAuthorized("essentials.seen.banreason");
         final boolean showIp = sender.isAuthorized("essentials.seen.ip");
         final boolean showLocation = sender.isAuthorized("essentials.seen.location");
         final boolean showWhitelist = sender.isAuthorized("essentials.seen.whitelist");
-        final boolean searchAccounts = commandLabel.contains("alts") && sender.isAuthorized("essentials.seen.alts");
 
         User player;
         // Check by uuid, if it fails check by name.
@@ -46,21 +43,6 @@ public class Commandseen extends EssentialsCommand {
         }
 
         if (player == null) {
-            if (!searchAccounts) {
-                if (sender.isAuthorized("essentials.seen.ipsearch") && FormatUtil.validIP(args[0])) {
-                    if (ess.getServer().getBanList(BanList.Type.IP).isBanned(args[0])) {
-                        sender.sendTl("isIpBanned", args[0]);
-                    }
-                    seenIP(sender, args[0], args[0]);
-                    return;
-                } else if (ess.getServer().getBanList(BanList.Type.IP).isBanned(args[0])) {
-                    sender.sendTl("isIpBanned", args[0]);
-                    return;
-                } else if (BanLookup.isBanned(ess, args[0])) {
-                    sender.sendTl("whoisBanned", showBan ? BanLookup.getBanEntry(ess, args[0]).getReason() : sender.tl("true"));
-                    return;
-                }
-            }
             ess.getScheduler().runTaskAsynchronously(ess, new Runnable() {
                 @Override
                 public void run() {
@@ -81,21 +63,19 @@ public class Commandseen extends EssentialsCommand {
                 }
 
                 private void showUserSeen(final User user) {
-                    showSeenMessage(sender, user, searchAccounts, showBan, showIp, showLocation, showWhitelist);
+                    showSeenMessage(sender, user, showIp, showLocation, showWhitelist);
                 }
             });
         } else {
-            showSeenMessage(sender, player, searchAccounts, showBan, showIp, showLocation, showWhitelist);
+            showSeenMessage(sender, player, showIp, showLocation, showWhitelist);
         }
     }
 
-    private void showSeenMessage(final CommandSource sender, final User player, final boolean searchAccounts, final boolean showBan, final boolean showIp, final boolean showLocation, final boolean showWhitelist) {
-        if (searchAccounts) {
-            seenIP(sender, player.getLastLoginAddress(), player.getDisplayName());
-        } else if (player.getBase().isOnline() && canInteractWith(sender, player)) {
+    private void showSeenMessage(final CommandSource sender, final User player, final boolean showIp, final boolean showLocation, final boolean showWhitelist) {
+        if (player.getBase().isOnline() && canInteractWith(sender, player)) {
             seenOnline(sender, player, showIp);
         } else {
-            seenOffline(sender, player, showBan, showIp, showLocation, showWhitelist);
+            seenOffline(sender, player, showIp, showLocation, showWhitelist);
         }
     }
 
@@ -116,14 +96,6 @@ public class Commandseen extends EssentialsCommand {
         if (user.isAfk()) {
             sender.sendTl("whoisAFK", CommonPlaceholders.trueFalse(sender, true));
         }
-        if (user.isMuted()) {
-            final long muteTimeout = user.getMuteTimeout();
-            if (!user.hasMuteReason()) {
-                sender.sendTl("whoisMuted", muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : CommonPlaceholders.trueFalse(sender, true));
-            } else {
-                sender.sendTl("whoisMutedReason", muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : CommonPlaceholders.trueFalse(sender, true), user.getMuteReason());
-            }
-        }
         final String location = user.getGeoLocation();
         if (location != null && (!sender.isPlayer() || ess.getUser(sender.getPlayer()).isAuthorized("essentials.geoip.show"))) {
             sender.sendTl("whoisGeoLocation", location);
@@ -133,7 +105,7 @@ public class Commandseen extends EssentialsCommand {
         }
     }
 
-    private void seenOffline(final CommandSource sender, final User user, final boolean showBan, final boolean showIp, final boolean showLocation, final boolean showWhitelist) {
+    private void seenOffline(final CommandSource sender, final User user, final boolean showIp, final boolean showLocation, final boolean showWhitelist) {
         user.setDisplayNick();
         if (user.getLastLogout() > 0) {
             sender.sendTl("seenOffline", user.getName(), DateUtil.formatDateDiff(user.getLastLogout()));
@@ -151,29 +123,6 @@ public class Commandseen extends EssentialsCommand {
 
         if (showWhitelist) {
             sender.sendTl("whoisWhitelist", CommonPlaceholders.trueFalse(sender, user.getBase().isWhitelisted()));
-        }
-
-        if (BanLookup.isBanned(ess, user)) {
-            final BanEntry banEntry = BanLookup.getBanEntry(ess, user.getName());
-            final Object reason = showBan ? banEntry.getReason() : CommonPlaceholders.trueFalse(sender, true);
-            sender.sendTl("whoisBanned", reason);
-            if (banEntry.getExpiration() != null) {
-                final Date expiry = banEntry.getExpiration();
-                Object expireString = AdventureUtil.parsed(sender.tl("now"));
-                if (expiry.after(new Date())) {
-                    expireString = DateUtil.formatDateDiff(expiry.getTime());
-                }
-                sender.sendTl("whoisTempBanned", expireString);
-            }
-        }
-
-        if (user.isMuted()) {
-            final long muteTimeout = user.getMuteTimeout();
-            if (!user.hasMuteReason()) {
-                sender.sendTl("whoisMuted", muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : CommonPlaceholders.trueFalse(sender, true));
-            } else {
-                sender.sendTl("whoisMutedReason", muteTimeout > 0 ? DateUtil.formatDateDiff(muteTimeout) : CommonPlaceholders.trueFalse(sender, true), user.getMuteReason());
-            }
         }
 
         final String location = user.getGeoLocation();

@@ -24,13 +24,6 @@ public class Commandr extends EssentialsCommand {
         final IMessageRecipient messageSender;
         if (sender.isPlayer()) {
             final User user = ess.getUser(sender.getPlayer());
-            if (user.isMuted()) {
-                final String dateDiff = user.getMuteTimeout() > 0 ? DateUtil.formatDateDiff(user.getMuteTimeout()) : null;
-                if (dateDiff == null) {
-                    throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReason" : "voiceSilenced", user.getMuteReason());
-                }
-                throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReasonTime" : "voiceSilencedTime", dateDiff, user.getMuteReason());
-            }
 
             message = FormatUtil.formatMessage(user, "essentials.msg", message);
             messageSender = user;
@@ -41,7 +34,7 @@ public class Commandr extends EssentialsCommand {
 
         final IMessageRecipient target = messageSender.getReplyRecipient();
         // Check to make sure the sender does have a quick-reply recipient
-        if (target == null || (!ess.getSettings().isReplyToVanished() && sender.isPlayer() && target.isHiddenFrom(sender.getPlayer()))) {
+        if (target == null || (sender.isPlayer() && target.isHiddenFrom(sender.getPlayer()))) {
             messageSender.setReplyRecipient(null);
             throw new TranslatableException("foreverAlone");
         }

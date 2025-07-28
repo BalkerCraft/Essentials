@@ -74,13 +74,9 @@ public interface ISettings extends IConf {
 
     Set<String> getSocialSpyCommands();
 
-    boolean getSocialSpyListenMutedPlayers();
-
     boolean isSocialSpyMessages();
 
     boolean isSocialSpyDisplayNames();
-
-    Set<String> getMuteCommands();
 
     @Deprecated
     CommentedConfigurationNode getKitSection();
@@ -220,8 +216,6 @@ public interface ISettings extends IConf {
 
     boolean sleepIgnoresAfkPlayers();
 
-    boolean sleepIgnoresVanishedPlayers();
-
     boolean isAfkListName();
 
     String getAfkListName();
@@ -229,8 +223,6 @@ public interface ISettings extends IConf {
     boolean broadcastAfkMessage();
 
     boolean areDeathMessagesEnabled();
-
-    KeepInvPolicy getVanishingItemsPolicy();
 
     KeepInvPolicy getBindingItemsPolicy();
 
@@ -284,17 +276,11 @@ public interface ISettings extends IConf {
 
     void setEssentialsChatActive(boolean b);
 
-    long getMaxMute();
-
-    long getMaxTempban();
-
     Map<String, Object> getListGroupConfig();
 
     int getMaxNickLength();
 
     boolean ignoreColorsInMaxLength();
-
-    boolean hideDisplayNameInVanish();
 
     int getMaxUserCacheCount();
 
@@ -321,8 +307,6 @@ public interface ISettings extends IConf {
     boolean isDropItemsIfFull();
 
     boolean isLastMessageReplyRecipient();
-
-    boolean isReplyToVanished();
 
     BigDecimal getMinimumPayAmount();
 

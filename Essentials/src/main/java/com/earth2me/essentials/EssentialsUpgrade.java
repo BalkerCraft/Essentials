@@ -4,7 +4,6 @@ import com.earth2me.essentials.config.ConfigurateUtil;
 import com.earth2me.essentials.config.EssentialsConfiguration;
 import com.earth2me.essentials.config.EssentialsUserConfiguration;
 import com.earth2me.essentials.config.entities.LazyLocation;
-import com.earth2me.essentials.craftbukkit.BanLookup;
 import com.earth2me.essentials.userstorage.ModernUUIDCache;
 import com.earth2me.essentials.utils.AdventureUtil;
 import com.earth2me.essentials.utils.StringUtil;
@@ -905,10 +904,6 @@ public class EssentialsUpgrade {
                     }
                 } catch (final NumberFormatException n) {
                     banTimeout = 0L;
-                }
-
-                if (BanLookup.isBanned(ess, playerName)) {
-                    updateBan(playerName, banReason, banTimeout);
                 }
             }
             conf.removeProperty("ban");

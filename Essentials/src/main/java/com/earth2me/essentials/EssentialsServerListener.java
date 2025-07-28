@@ -52,7 +52,6 @@ public class EssentialsServerListener implements Listener {
         if (isPaperSample) {
             try {
                 final List<String> playerNames = (List<String>) getSampleText.invoke(event, null);
-                playerNames.removeIf(player -> ess.getUser(player).isVanished());
                 setSampleText.invoke(event, playerNames);
             } catch (final IllegalAccessException | InvocationTargetException | ClassCastException e) {
                 if (!unsupportedLogged && shouldWarnSLPECaller(e)) {
@@ -74,9 +73,6 @@ public class EssentialsServerListener implements Listener {
                 final Iterator<Player> iterator = event.iterator();
                 while (iterator.hasNext()) {
                     final Player player = iterator.next();
-                    if (ess.getUser(player).isVanished()) {
-                        iterator.remove();
-                    }
                 }
             } catch (final UnsupportedOperationException e) {
                 if (!unsupportedLogged && shouldWarnSLPECaller(e)) {

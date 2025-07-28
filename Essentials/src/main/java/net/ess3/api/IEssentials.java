@@ -11,13 +11,6 @@ import java.util.Collection;
 public interface IEssentials extends com.earth2me.essentials.IEssentials {
 
     /**
-     * Get a list of players who are vanished.
-     *
-     * @return A list of players who are vanished
-     */
-    Collection<String> getVanishedPlayersNew();
-
-    /**
      * Get the {@link CustomItemResolver} that is currently in use.
      *
      * <b>Note: external plugins should generally avoid using this. If you want to add custom items from your plugin,

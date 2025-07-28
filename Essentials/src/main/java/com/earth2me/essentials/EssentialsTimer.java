@@ -94,7 +94,6 @@ public class EssentialsTimer implements Runnable {
                 iterator.remove();
                 continue;
             }
-            user.checkMuteTimeout(currentTime);
             user.resetInvulnerabilityAfterTeleport();
         }
     }

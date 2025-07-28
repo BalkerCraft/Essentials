@@ -149,7 +149,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     private static final Logger BUKKIT_LOGGER = Logger.getLogger("Essentials");
     private static Logger LOGGER = null;
     public static boolean TESTING = false;
-    private final transient Set<String> vanishedPlayers = new LinkedHashSet<>();
     private final transient Map<String, IEssentialsCommand> commandMap = new HashMap<>();
     private final transient ProviderFactory providerFactory = new ProviderFactory(this);
     private transient ISettings settings;
@@ -523,10 +522,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
         }
 
         for (final User user : getOnlineUsers()) {
-            if (user.isVanished()) {
-                user.setVanished(false);
-                user.sendTl("unvanishedReload");
-            }
             if (stopping) {
                 user.setLogoutLocation();
                 if (!user.isHidden()) {
@@ -1227,16 +1222,6 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials {
     @Override
     public MailService getMail() {
         return mail;
-    }
-
-    @Override
-    public List<String> getVanishedPlayers() {
-        return Collections.unmodifiableList(new ArrayList<>(vanishedPlayers));
-    }
-
-    @Override
-    public Collection<String> getVanishedPlayersNew() {
-        return vanishedPlayers;
     }
 
     @Override

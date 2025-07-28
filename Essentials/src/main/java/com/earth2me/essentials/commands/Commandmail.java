@@ -68,14 +68,6 @@ public class Commandmail extends EssentialsCommand {
                 throw new TranslatableException("noPerm", "essentials.mail.send");
             }
 
-            if (user.isMuted()) {
-                final String dateDiff = user.getMuteTimeout() > 0 ? DateUtil.formatDateDiff(user.getMuteTimeout()) : null;
-                if (dateDiff == null) {
-                    throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReason" : "voiceSilenced", user.getMuteReason());
-                }
-                throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReasonTime" : "voiceSilencedTime", dateDiff, user.getMuteReason());
-            }
-
             final User u;
             try {
                 u = getPlayer(server, args[1], true, true);
@@ -107,14 +99,6 @@ public class Commandmail extends EssentialsCommand {
         if (args.length >= 4 && "sendtemp".equalsIgnoreCase(args[0])) {
             if (!user.isAuthorized("essentials.mail.sendtemp")) {
                 throw new TranslatableException("noPerm", "essentials.mail.sendtemp");
-            }
-
-            if (user.isMuted()) {
-                final String dateDiff = user.getMuteTimeout() > 0 ? DateUtil.formatDateDiff(user.getMuteTimeout()) : null;
-                if (dateDiff == null) {
-                    throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReason" : "voiceSilenced", user.getMuteReason());
-                }
-                throw new TranslatableException(user.hasMuteReason() ? "voiceSilencedReasonTime" : "voiceSilencedTime", dateDiff, user.getMuteReason());
             }
 
             final User u;

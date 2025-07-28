@@ -36,14 +36,6 @@ commands:
     description: Gets the top balance values.
     usage: /<command> [page]
     aliases: [ebalancetop,baltop,ebaltop]
-  ban:
-    description: Bans a player.
-    usage: /<command> <player> [reason]
-    aliases: [eban]
-  banip:
-    description: Bans an IP address.
-    usage: /<command> <address> [reason]
-    aliases: [ebanip]
   beezooka:
     description: Throw an exploding bee at your opponent.
     usage: /<command>
@@ -68,10 +60,6 @@ commands:
     description: Broadcasts a message to a world.
     usage: /<command> <world> <msg>
     aliases: [bcw,ebcw,bcastw,ebcastw,ebroadcastworld,shoutworld,eshoutworld]
-  bigtree:
-    description: Spawn a big tree where you are looking.
-    usage: /<command> <tree|redwood|jungle|darkoak>
-    aliases: [ebigtree,largetree,elargetree]
   burn:
     description: Set a player on fire.
     usage: /<command> <player> <seconds>
@@ -243,14 +231,6 @@ commands:
     description: Jumps to the nearest block in the line of sight.
     usage: /<command>
     aliases: [j,ej,ejump,jumpto,ejumpto]
-  kick:
-    description: Kicks a specified player with a reason.
-    usage: /<command> <player> [reason]
-    aliases: [ekick]
-  kickall:
-    description: Kicks all players off the server except the issuer.
-    usage: /<command> [reason]
-    aliases: [ekickall]
   kill:
     description: Kills specified player.
     usage: /<command> <player>
@@ -303,10 +283,6 @@ commands:
     description: Blocks receiving all private messages.
     usage: /<command> [player] [on|off]
     aliases: [emsgtoggle]
-  mute:
-    description: Mutes or unmutes a player.
-    usage: /<command> <player> [datediff] [reason]
-    aliases: [emute,silence,esilence]
   near:
     description: Lists the players near by or around a player.
     usage: /<command> [playername] [radius]
@@ -467,14 +443,6 @@ commands:
     description: Causes you to perish.
     usage: /<command>
     aliases: [esuicide]
-  tempban:
-    description: Temporary ban a user.
-    usage: /<command> <playername> <datediff> [reason]
-    aliases: [etempban]
-  tempbanip:
-    description: Temporarily ban an IP Address.
-    usage: /<command> <playername> <datediff> [reason]
-    aliases: [etempbanip]
   thunder:
     description: Enable/disable thunder.
     usage: /<command> <true/false> [duration]
@@ -547,26 +515,10 @@ commands:
     description: Blocks all forms of teleportation.
     usage: /<command> [player] [on|off]
     aliases: [etptoggle]
-  tree:
-    description: Spawn a tree where you are looking.
-    usage: /<command> <tree|birch|redwood|redmushroom|brownmushroom|jungle|junglebush|swamp>
-    aliases: [etree]
-  unban:
-    description: Unbans the specified player.
-    usage: /<command> <player>
-    aliases: [pardon,eunban,epardon]
-  unbanip:
-    description: Unbans the specified IP address.
-    usage: /<command> <address>
-    aliases: [eunbanip,pardonip,epardonip]
   unlimited:
     description: Allows the unlimited placing of items.
     usage: /<command> <list|item|clear> [player]
     aliases: [eunlimited,ul,unl,eul,eunl]
-  vanish:
-    description: Hide yourself from other players.
-    usage: /<command> [player] [on|off]
-    aliases: [v,ev,evanish]
   warp:
     description: List all warps or warp to the specified location.
     usage: /<command> <pagenumber|warp> [player]
@@ -640,25 +592,6 @@ permissions:
   essentials.balancetop.exclude:
     default: false
     description: Players with this permission are excluded from the balancetop
-  essentials.ban:
-    description: Allows access to the /ban command
-  essentials.ban.notify:
-    description: Allows the bearer to be notified when a player is banned
-  essentials.ban.exempt:
-    default: false
-    description: Prevent a specified group or player from being banned
-  essentials.ban.offline:
-    description: Allows access to the /ban command for offline players, which may in turn by used to ban exempt players who are offline
-  essentials.banip:
-    description: Allows access to the /banip command
-  essentials.banip.notify:
-    description: Allows the bearer to be notified when a player is banned
-  essentials.unban:
-    description: Allows access to the /unban command
-  essentials.unbanip:
-    description: Allows access to the /unbanip command
-  essentials.bigtree:
-    description: Allows access to the /bigtree command
   essentials.book:
     description: Allows access to the /book command
   essentials.book.author:
@@ -928,17 +861,6 @@ permissions:
     description: Allows the user to keep their exp on death, instead of dropping it.
   essentials.joinfullserver:
     description: Allows the to join the server even if it is full
-  essentials.kick:
-    description: Allows access to the /kick command
-  essentials.kick.exempt:
-    default: false
-    description: Prevents the player from being kicked.
-  essentials.kick.notify:
-    description: Allows the bearer to be notified when other players are kicked
-  essentials.kickall:
-    description: Allows access to the /kickall command
-  essentials.kickall.exempt:
-    description: Prevents the player from being kicked by /kickall
   essentials.kit:
     description: Allows access to the /kit command
   essentials.kit.exemptdelay:
@@ -1000,17 +922,6 @@ permissions:
     description: Allows access to the /msgtoggle command for other players
   essentials.msgtoggle.bypass:
     description: Allows the bearer to bypass the msgtoggle setting for other players
-  essentials.mute:
-    description: Allows access to the /mute command
-  essentials.mute.notify:
-    description: Allows the bearer to be notified when other players are muted
-  essentials.mute.exempt:
-    default: false
-    description: Prevent a specified group or player from being muted
-  essentials.mute.unlimited:
-    description: Allows the bearer to override the max-mute-time setting
-  essentials.mute.offline:
-    description: Allows access to mute offline players
   essentials.near:
     description: Allows access to the /near command
   essentials.near.maxexempt:
@@ -1173,9 +1084,6 @@ permissions:
   essentials.silentjoin:
     default: false
     description: Allow to join silently
-  essentials.silentjoin.vanish:
-    default: false
-    description: Allow to join silently, and get put in vanish mode
   essentials.silentquit:
     default: false
     description: Suppress leave/quit messages for users with this permission.
@@ -1234,17 +1142,6 @@ permissions:
     description: Allows the bearer to bypass the teleport delay
   essentials.teleport.timer.move:
     description: Allows the bearer to move while waiting for a teleport
-  essentials.tempban:
-    description: Allows access to the /tempban command
-  essentials.tempban.exempt:
-    default: false
-    description: Prevent a specified group or player from being tempbanned
-  essentials.tempban.offline:
-    description: Allows access to tempban offline players
-  essentials.tempban.unlimited:
-    description: Allows the bearer to override the max-tempban-time setting
-  essentials.tempbanip:
-    description: Allows access to the /tempbanip command
   essentials.thunder:
     description: Allows access to the /thunder command
   essentials.time:
@@ -1309,16 +1206,8 @@ permissions:
     description: Allows access to the /unlimited command for buckets of water and lava
   essentials.unlimited.others:
     description: Allows access to the /unlimited command for other players
-  essentials.vanish:
-    description: Allows access to the /vanish command
-  essentials.vanish.others:
-    description: Allows access to the /vanish command for other players
   essentials.vanish.pvp:
     description: Allows the bearer to attack players while in vanish mode
-  essentials.vanish.see:
-    description: Allows the bearer to see other players in vanish mode
-  essentials.vanish.effect:
-    description: Applies invisibility effects to the player when they are in vanish mode
   essentials.vanish.interact:
     description: Allows the bearer to interact with players in vanish mode
   essentials.version:
@@ -1510,11 +1399,7 @@ permissions:
     description: Parent permission to be exempt from many moderator actions
     children:
       essentials.invsee.preventmodify: true
-      essentials.ban.exempt: true
-      essentials.kick.exempt: true
-      essentials.mute.exempt: true
       essentials.chat.ignoreexempt: true
       essentials.sudo.exempt: true
-      essentials.tempban.exempt: true
       essentials.exempt.protect: true
       essentials.editsign.waxed.exempt: true

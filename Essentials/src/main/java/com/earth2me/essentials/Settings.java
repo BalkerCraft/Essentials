@@ -110,7 +110,6 @@ public class Settings implements net.ess3.api.ISettings {
     private String afkListName;
     private boolean isAfkListName;
     private boolean broadcastAfkMessage;
-    private KeepInvPolicy vanishingItemPolicy;
     private KeepInvPolicy bindingItemPolicy;
     private Set<String> noGodWorlds = new HashSet<>();
     private boolean registerBackInListener;
@@ -480,11 +479,6 @@ public class Settings implements net.ess3.api.ISettings {
     }
 
     @Override
-    public boolean getSocialSpyListenMutedPlayers() {
-        return config.getBoolean("socialspy-listen-muted-players", true);
-    }
-
-    @Override
     public boolean isSocialSpyMessages() {
         return config.getBoolean("socialspy-messages", true);
     }
@@ -492,22 +486,6 @@ public class Settings implements net.ess3.api.ISettings {
     @Override
     public boolean isSocialSpyDisplayNames() {
         return config.getBoolean("socialspy-uses-displaynames", true);
-    }
-
-    private Set<String> _getMuteCommands() {
-        final Set<String> muteCommands = new HashSet<>();
-        if (config.isList("mute-commands")) {
-            for (final String s : config.getList("mute-commands", String.class)) {
-                muteCommands.add(s.toLowerCase(Locale.ENGLISH));
-            }
-        }
-
-        return muteCommands;
-    }
-
-    @Override
-    public Set<String> getMuteCommands() {
-        return muteCommands;
     }
 
     private String _getNicknamePrefix() {
@@ -920,7 +898,6 @@ public class Settings implements net.ess3.api.ISettings {
         isCustomQuitMessage = !customQuitMessage.equals("none");
         customNewUsernameMessage = _getCustomNewUsernameMessage();
         isCustomNewUsernameMessage = !customNewUsernameMessage.equals("none");
-        muteCommands = _getMuteCommands();
         spawnOnJoinGroups = _getSpawnOnJoinGroups();
         commandCooldowns = _getCommandCooldowns();
         npcsInBalanceRanking = _isNpcsInBalanceRanking();
@@ -937,7 +914,6 @@ public class Settings implements net.ess3.api.ISettings {
         nickBlacklist = _getNickBlacklist();
         maxProjectileSpeed = _getMaxProjectileSpeed();
         removeEffectsOnHeal = _isRemovingEffectsOnHeal();
-        vanishingItemPolicy = _getVanishingItemsPolicy();
         bindingItemPolicy = _getBindingItemsPolicy();
         currencySymbol = _getCurrencySymbol();
         worldAliases = _getWorldAliases();
@@ -1314,11 +1290,6 @@ public class Settings implements net.ess3.api.ISettings {
         return config.getBoolean("sleep-ignores-afk-players", true);
     }
 
-    @Override
-    public boolean sleepIgnoresVanishedPlayers() {
-        return config.getBoolean("sleep-ignores-vanished-player", true);
-    }
-
     public String _getAfkListName() {
         return FormatUtil.replaceFormat(config.getString("afk-list-name", "none"));
     }
@@ -1345,20 +1316,6 @@ public class Settings implements net.ess3.api.ISettings {
     @Override
     public boolean areDeathMessagesEnabled() {
         return config.getBoolean("death-messages", true);
-    }
-
-    public KeepInvPolicy _getVanishingItemsPolicy() {
-        final String value = config.getString("vanishing-items-policy", "keep").toLowerCase(Locale.ENGLISH);
-        try {
-            return KeepInvPolicy.valueOf(value.toUpperCase(Locale.ENGLISH));
-        } catch (final IllegalArgumentException e) {
-            return KeepInvPolicy.KEEP;
-        }
-    }
-
-    @Override
-    public KeepInvPolicy getVanishingItemsPolicy() {
-        return vanishingItemPolicy;
     }
 
     public KeepInvPolicy _getBindingItemsPolicy() {
@@ -1546,16 +1503,6 @@ public class Settings implements net.ess3.api.ISettings {
     }
 
     @Override
-    public long getMaxMute() {
-        return config.getLong("max-mute-time", -1);
-    }
-
-    @Override
-    public long getMaxTempban() {
-        return config.getLong("max-tempban-time", -1);
-    }
-
-    @Override
     public int getMaxNickLength() {
         return config.getInt("max-nick-length", 30);
     }
@@ -1563,11 +1510,6 @@ public class Settings implements net.ess3.api.ISettings {
     @Override
     public boolean ignoreColorsInMaxLength() {
         return config.getBoolean("ignore-colors-in-max-nick-length", false);
-    }
-
-    @Override
-    public boolean hideDisplayNameInVanish() {
-        return config.getBoolean("hide-displayname-in-vanish", false);
     }
 
     public boolean _allowSilentJoinQuit() {
@@ -1662,11 +1604,6 @@ public class Settings implements net.ess3.api.ISettings {
     @Override
     public boolean isLastMessageReplyRecipient() {
         return config.getBoolean("last-message-reply-recipient", false);
-    }
-
-    @Override
-    public boolean isReplyToVanished() {
-        return config.getBoolean("last-message-reply-vanished", true);
     }
 
     @Override

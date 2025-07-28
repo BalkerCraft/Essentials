@@ -51,10 +51,6 @@ nick-blacklist:
 # For example, if "&6Notch" has 7 characters (2 are part of a color code), a length of 5 is used when this option is set to true.
 ignore-colors-in-max-nick-length: false
 
-# When this option is enabled, display names for hidden players will not be shown. This prevents players from being
-# able to see that they are online while vanished.
-hide-displayname-in-vanish: true
-
 # Disable this if you have any other plugin that modifies the display name of a player.
 change-displayname: true
 
@@ -510,11 +506,6 @@ cancel-afk-on-chat: true
 # Players with the permission 'essentials.sleepingignored' will always be ignored.
 sleep-ignores-afk-players: true
 
-# Should vanished players be ignored when other players are trying to sleep?
-# When this setting is false, players won't be able to skip the night if vanished players are not sleeping.
-# Players with the permission 'essentials.sleepingignored' will always be ignored.
-sleep-ignores-vanished-player: true
-
 # Change the player's /list name when they are AFK. This is none by default, which specifies that Essentials
 # should not interfere with the AFK player's /list name.
 # You may use color codes, {USERNAME} for the player's name, or {PLAYER} for the player's display name.
@@ -529,11 +520,6 @@ broadcast-afk-message: true
 death-messages: true
 
 # How should Essentials handle players with the 'essentials.keepinv' permission who have items with
-# Curse of Vanishing when they die?
-# Valid options are: 'keep', 'drop', and 'delete'.
-vanishing-items-policy: keep
-
-# How should Essentials handle players with the 'essentials.keepinv' permission who have items with
 # Curse of Binding when they die?
 # Valid options are: 'keep', 'drop', and 'delete'.
 binding-items-policy: keep
@@ -543,7 +529,6 @@ send-info-after-death: false
 
 # Should players with permissions be able to join and quit silently?
 # You can control this with 'essentials.silentjoin' and 'essentials.silentquit' permissions if it is enabled.
-# In addition, people with 'essentials.silentjoin.vanish' will be vanished upon joining.
 allow-silent-join-quit: false
 
 # You can set custom join and quit messages here. Set this to "none" to use the default Minecraft message,
@@ -652,11 +637,6 @@ last-message-reply-recipient: true
 # reply recipient to update when receiving a message.
 # 180 seconds = 3 minutes
 last-message-reply-recipient-timeout: 180
-
-# Changes the default /reply functionality.
-# If true, /reply will not check if the person you're replying to is vanished.
-# If false, players will not be able to /reply to vanished players they cannot see.
-last-message-reply-vanished: false
 
 # Toggles whether left clicking mobs with a milk bucket turns them into a baby.
 milk-bucket-easter-egg: true

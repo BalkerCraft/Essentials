@@ -18,7 +18,6 @@ import net.ess3.api.IEssentials;
 import net.ess3.api.MaxMoneyException;
 import net.ess3.api.TranslatableException;
 import net.ess3.api.events.AfkStatusChangeEvent;
-import net.ess3.api.events.MuteStatusChangeEvent;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import net.ess3.provider.PlayerLocaleProvider;
 import net.essentialsx.api.v2.events.TransactionEvent;
@@ -70,7 +69,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
     private final transient LinkedHashMap<String, TpaRequest> teleportRequestQueue = new LinkedHashMap<>();
 
     // User properties
-    private transient boolean vanished;
     private boolean hidden = false;
     private boolean leavingHidden = false;
     private boolean rightClickJump = false;
@@ -96,7 +94,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
 
     // Misc
     private transient final List<String> signCopy = Lists.newArrayList("", "", "", "");
-    private transient long lastVanishTime = System.currentTimeMillis();
     private transient int flightTick = -1;
     private String lastLocaleString;
     private Locale playerLocale;
@@ -544,7 +541,7 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
     @Override
     public String getDisplayName() {
         //noinspection ConstantConditions
-        return super.getBase().getDisplayName() == null || (ess.getSettings().hideDisplayNameInVanish() && isHidden()) ? super.getBase().getName() : super.getBase().getDisplayName();
+        return super.getBase().getDisplayName() == null || isHidden() ? super.getBase().getName() : super.getBase().getDisplayName();
     }
 
     @Override
@@ -694,16 +691,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
     }
 
     @Override
-    public boolean isLeavingHidden() {
-        return leavingHidden;
-    }
-
-    @Override
-    public void setLeavingHidden(boolean leavingHidden) {
-        this.leavingHidden = leavingHidden;
-    }
-
-    @Override
     public void setHidden(final boolean hidden) {
         this.hidden = hidden;
         if (hidden) {
@@ -713,24 +700,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
 
     public boolean isHidden(final Player player) {
         return hidden || isHiddenFrom(player);
-    }
-
-    //Returns true if status expired during this check
-    @SuppressWarnings("UnusedReturnValue")
-    public boolean checkMuteTimeout(final long currentTime) {
-        if (getMuteTimeout() > 0 && getMuteTimeout() < currentTime && isMuted()) {
-            final MuteStatusChangeEvent event = new MuteStatusChangeEvent(this, null, false, getMuteTimeout(), getMuteReason());
-            ess.getServer().getPluginManager().callEvent(event);
-
-            if (!event.isCancelled()) {
-                setMuteTimeout(0);
-                sendTl("canTalkAgain");
-                setMuted(false);
-                setMuteReason(null);
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -919,48 +888,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
     @Override
     public void setIgnoreMsg(final boolean ignoreMsg) {
         this.ignoreMsg = ignoreMsg;
-    }
-
-    @Override
-    public boolean isVanished() {
-        return vanished;
-    }
-
-    @Override
-    public void setVanished(final boolean set) {
-        vanished = set;
-        if (set) {
-            for (final User user : ess.getOnlineUsers()) {
-                if (!user.isAuthorized("essentials.vanish.see")) {
-                    //noinspection deprecation
-                    user.getBase().hidePlayer(getBase());
-                }
-            }
-            setHidden(true);
-            lastVanishTime = System.currentTimeMillis();
-            ess.getVanishedPlayersNew().add(getName());
-            this.getBase().setMetadata("vanished", new FixedMetadataValue(ess, true));
-            if (isAuthorized("essentials.vanish.effect")) {
-                this.getBase().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false));
-            }
-            if (ess.getSettings().sleepIgnoresVanishedPlayers()) {
-                getBase().setSleepingIgnored(true);
-            }
-        } else {
-            for (final Player p : ess.getOnlinePlayers()) {
-                //noinspection deprecation
-                p.showPlayer(getBase());
-            }
-            setHidden(false);
-            ess.getVanishedPlayersNew().remove(getName());
-            this.getBase().setMetadata("vanished", new FixedMetadataValue(ess, false));
-            if (isAuthorized("essentials.vanish.effect")) {
-                this.getBase().removePotionEffect(PotionEffectType.INVISIBILITY);
-            }
-            if (ess.getSettings().sleepIgnoresVanishedPlayers() && !isAuthorized("essentials.sleepingignored")) {
-                getBase().setSleepingIgnored(false);
-            }
-        }
     }
 
     public boolean checkSignThrottle() {
@@ -1212,10 +1139,6 @@ public class User extends UserData implements Comparable<User>, IMessageRecipien
             return exempt;
         }
         return isBaltopExcludeCache();
-    }
-
-    public long getLastVanishTime() {
-        return lastVanishTime;
     }
 
     @Override

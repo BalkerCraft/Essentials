@@ -145,10 +145,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
             ess.getServer().getPluginManager().registerEvents(new ArrowPickupListener(), ess);
         }
 
-        if (isGameEventEvent()) {
-            ess.getServer().getPluginManager().registerEvents(new SculkListener1_17(), ess);
-        }
-
         if (isEntityPickupEvent()) {
             ess.getServer().getPluginManager().registerEvents(new PickupListener1_12(), ess);
         } else {
@@ -176,26 +172,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(final AsyncPlayerChatEvent event) {
         final User user = ess.getUser(event.getPlayer());
-        if (user.isMuted()) {
-            event.setCancelled(true);
-
-            final String dateDiff = user.getMuteTimeout() > 0 ? DateUtil.formatDateDiff(user.getMuteTimeout()) : null;
-            if (dateDiff == null) {
-                if (user.hasMuteReason()) {
-                    user.sendTl("voiceSilencedReason", user.getMuteReason());
-                } else {
-                    user.sendTl("voiceSilenced");
-                }
-            } else {
-                if (user.hasMuteReason()) {
-                    user.sendTl("voiceSilencedReasonTime", dateDiff, user.getMuteReason());
-                } else {
-                    user.sendTl("voiceSilencedTime", dateDiff);
-                }
-            }
-
-            ess.getLogger().info(AdventureUtil.miniToLegacy(tlLiteral("mutedUserSpeaks", user.getName(), event.getMessage())));
-        }
         try {
             final Iterator<Player> it = event.getRecipients().iterator();
             while (it.hasNext()) {
@@ -301,10 +277,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
         if (ess.getSettings().removeGodOnDisconnect() && user.isGodModeEnabled()) {
             user.setGodModeEnabled(false);
         }
-        if (user.isVanished()) {
-            user.setLeavingHidden(true);
-            user.setVanished(false);
-        }
         user.setLogoutLocation();
         if (user.isRecipeSee()) {
             ess.provider(InventoryViewProvider.class).getTopInventory(user.getBase().getOpenInventory()).clear();
@@ -358,7 +330,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
         }
 
         final long currentTime = System.currentTimeMillis();
-        dUser.checkMuteTimeout(currentTime);
         dUser.updateActivity(false, AfkStatusChangeEvent.Cause.JOIN);
         dUser.stopTransaction();
 
@@ -378,32 +349,16 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
                 user.setLastLogin(currentTime);
                 user.setDisplayNick();
                 updateCompass(user);
-                user.setLeavingHidden(false);
 
                 // Check for new username. If they don't want the message, let's just say it's false.
                 final boolean newUsername = ess.getSettings().isCustomNewUsernameMessage() && lastAccountName != null && !lastAccountName.equals(user.getBase().getName());
-
-                if (!ess.getVanishedPlayersNew().isEmpty() && !user.isAuthorized("essentials.vanish.see")) {
-                    for (final String p : ess.getVanishedPlayersNew()) {
-                        final Player toVanish = ess.getServer().getPlayerExact(p);
-                        if (toVanish != null && toVanish.isOnline()) {
-                            user.getBase().hidePlayer(toVanish);
-                            if (ess.getSettings().isDebug()) {
-                                ess.getLogger().info("Hiding vanished player: " + p);
-                            }
-                        }
-                    }
-                }
 
                 if (user.isAuthorized("essentials.sleepingignored")) {
                     user.getBase().setSleepingIgnored(true);
                 }
 
                 final String effectiveMessage;
-                if (ess.getSettings().allowSilentJoinQuit() && (user.isAuthorized("essentials.silentjoin") || user.isAuthorized("essentials.silentjoin.vanish"))) {
-                    if (user.isAuthorized("essentials.silentjoin.vanish")) {
-                        user.setVanished(true);
-                    }
+                if (ess.getSettings().allowSilentJoinQuit() && (user.isAuthorized("essentials.silentjoin"))) {
                     effectiveMessage = null;
                 } else if (message == null || hideJoinQuitMessages()) {
                     effectiveMessage = null;
@@ -666,9 +621,7 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
                     final String playerName = ess.getSettings().isSocialSpyDisplayNames() ? player.getDisplayName() : player.getName();
                     for (final User spyer : ess.getOnlineUsers()) {
                         if (spyer.isSocialSpyEnabled() && !player.equals(spyer.getBase())) {
-                            final Component base = (user.isMuted() && ess.getSettings().getSocialSpyListenMutedPlayers())
-                                    ? spyer.tlComponent("socialSpyMutedPrefix")
-                                    : spyer.tlComponent("socialSpyPrefix");
+                            final Component base = spyer.tlComponent("socialSpyPrefix");
                             spyer.sendComponent(base.append(AdventureUtil.legacyToAdventure(playerName)).append(Component.text(": " + event.getMessage())));
                         }
                     }
@@ -677,25 +630,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
         }
 
         final User user = ess.getUser(player);
-        if (user.isMuted() && (ess.getSettings().getMuteCommands().contains(cmd) || ess.getSettings().getMuteCommands().contains("*"))) {
-            event.setCancelled(true);
-            final String dateDiff = user.getMuteTimeout() > 0 ? DateUtil.formatDateDiff(user.getMuteTimeout()) : null;
-            if (dateDiff == null) {
-                if (user.hasMuteReason()) {
-                    user.sendTl("voiceSilencedReason", user.getMuteReason());
-                } else {
-                    user.sendTl("voiceSilenced");
-                }
-            } else {
-                if (user.hasMuteReason()) {
-                    user.sendTl("voiceSilencedReasonTime", dateDiff, user.getMuteReason());
-                } else {
-                    user.sendTl("voiceSilencedTime", dateDiff);
-                }
-            }
-            ess.getLogger().info(AdventureUtil.miniToLegacy(tlLiteral("mutedUserSpeaks", player.getName(), event.getMessage())));
-            return;
-        }
 
         boolean broadcast = true; // whether to broadcast the updated activity
         boolean update = true; // Only modified when the command is afk
@@ -811,9 +745,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
 
         if (!user.getWorld().getName().equals(newWorld)) {
             user.sendTl("currentWorld", newWorld);
-        }
-        if (user.isVanished()) {
-            user.setVanished(user.isAuthorized("essentials.vanish"));
         }
     }
 
@@ -1059,15 +990,6 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
                 if (ess.getUser((Player) event.getEntity()).isAfk()) {
                     event.setCancelled(true);
                 }
-            }
-        }
-    }
-
-    private final class SculkListener1_17 implements Listener {
-        @EventHandler
-        public void onGameEvent(final org.bukkit.event.block.BlockReceiveGameEvent event) {
-            if (event.getEntity() instanceof Player && ess.getUser((Player) event.getEntity()).isVanished()) {
-                event.setCancelled(true);
             }
         }
     }
