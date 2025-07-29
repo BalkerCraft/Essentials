@@ -993,6 +993,8 @@ public class EssentialsPlayerListener implements Listener, FakeAccessor, Runnabl
             return label -> {
                 if (isEssentialsCommand(label)) {
                     final PluginCommand command = ess.getServer().getPluginCommand(label);
+                    if (command == null) return false;
+
                     if (!checked.contains(command)) {
                         checked.add(command);
                         if (!user.isAuthorized(command.getName().equals("r") ? "essentials.msg" : "essentials." + command.getName())) {
