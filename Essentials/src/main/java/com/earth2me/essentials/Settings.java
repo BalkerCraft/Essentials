@@ -210,9 +210,10 @@ public class Settings implements net.ess3.api.ISettings {
         }
 
         int extraHomes = 0;
-        for (int i = 1; i < 5; i++) {
+        for (int i = 5; i > 0; i--) {
             if (user.isAuthorized("essentials.sethome.extrahomes." + i)) {
                 extraHomes = i;
+                break;
             }
         }
 
